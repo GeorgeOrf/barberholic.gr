@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const timeInput = document.getElementById("time");
   const startHour = 10;
   const endHour = 18;
+  
+  const RENDER_URL = "https://barberholic-gr.onrender.com"
 
   // 1️⃣ Γέμισμα ημερομηνιών (επόμενες 7 μέρες)
   const today = new Date();
@@ -27,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     timeInput.innerHTML = "";
 
     try {
-      const res = await fetch(`http://localhost:3000/appointments?date=${date}`);
+      const res = await fetch(`${RENDER_URL}/appointments?date=${date}`);
       const appointments = await res.json();
       const bookedHours = appointments.map(ev => new Date(ev.start.dateTime).getHours());
 
@@ -66,7 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/appointment", {
+      // Για κλείσιμο ραντεβού
+      const response = await fetch(`${RENDER_URL}/appointment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone, date, time })
