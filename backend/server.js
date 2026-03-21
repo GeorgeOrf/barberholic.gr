@@ -126,7 +126,7 @@ app.get("/services", async (req, res) => {
     const result = await pool.query(
       "SELECT id, name FROM services ORDER BY id"
     );
-
+    console.log("services rows:", result.rows); 
     res.json(result.rows);
   } catch (err) {
     console.error(err);
