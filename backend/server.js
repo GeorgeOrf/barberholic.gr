@@ -76,7 +76,7 @@ app.post("/book", async (req, res) => {
     // --- Δημιουργία event στο Google Calendar ---
     const endTime = calculateEndTime(time, duration);
     await calendar.events.insert({
-      calendarId: process.env.GOOGLE_CALENDAR_ID, // βάλτο στο .env
+      calendarId: process.env.GOOGLE_CALENDAR_ID,
       requestBody: {
         summary: `Haircut: ${client_name}`,
         start: { dateTime: `${date}T${time}:00`, timeZone: "Europe/Athens" },
@@ -126,7 +126,7 @@ app.get("/services", async (req, res) => {
     const result = await pool.query(
       "SELECT id, name FROM services ORDER BY id"
     );
-    console.log("services rows:", result.rows); 
+    console.log("services rows:", result.rows);
     res.json(result.rows);
   } catch (err) {
     console.error(err);
