@@ -1,22 +1,261 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Liakos Barber Booking</title>
-  <link rel="stylesheet" href="./src/style.css">
-</head>
-<body>
-  <h1>Κλείσε Ραντεβού</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liakos Barber Booking</title>
+    <link rel="stylesheet" href="/src/styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+  </head>
+  <body class="m-0 p-0 overflow-x-hidden flex flex-col min-h-screen">
+    <header class="w-full relative top-0 left-0 z-50">
+      <nav
+        class="w-full bg-black flex items-center px-4 py-3 h-20 relative z-50"
+      >
+        <!-- Logo -->
+        <img
+          src="/images/logo.png"
+          class="w-16 md:w-22 lg:w-20 mr-auto"
+          alt="Barbershop logo"
+        />
 
-  <label>Όνομα: <input type="text" id="name" /></label><br/>
-  <label>Τηλέφωνο: <input type="text" id="phone" /></label><br/>
-  <label>Ημερομηνία: <select id="date"></select></label><br/>
-  <label>Ώρα: <select id="time"></select></label><br/><br/>
+        <!-- Desktop Menu -->
+        <div
+          class="hidden md:flex text-white text-md md:text-2xl gap-10 font-semibold"
+        >
+          <a href="index.html">ΑΡΧΙΚΗ</a>
+          <a href="book.html">ΡΑΝΤΕΒΟΥ</a>
+          <a href="index.html#contact">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+        </div>
 
-  <button id="bookBtn">Κλείσε Ραντεβού</button>
+        <!-- Hamburger -->
+        <button
+          id="menuBtn"
+          class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-0.5"
+        >
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+        </button>
+      </nav>
 
+      <!-- Mobile Dropdown -->
+      <div
+        id="mobileMenu"
+        class="fixed top-20 left-0 w-full bg-white text-black py-2 px-4 flex items-center justify-center text-lg opacity-0 pointer-events-none transition-all duration-300 z-40 font-semibold text-center"
+      >
+        <a href="index.html" class="flex-1 text-center">ΑΡΧΙΚΗ</a>
+        <a href="book.html" class="flex-1 text-center pr-4">ΡΑΝΤΕΒΟΥ</a>
+        <a href="index.html#contact" class="flex-1 text-center">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+      </div>
+    </header>
 
+    <main class="text-white flex flex-col">
+      <!-- HERO SECTION -->
+      <section
+        class="h-screen w-full bg-[url('/images/barberPole.jpg')] bg-cover bg-center flex items-center justify-center text-center flex-col space-y-6"
+      >
+        <div class="space-y-4 w-full md:w-[50%] mx-auto">
+          <h2
+            class="text-xl md:text-2xl font-bold drop-shadow-2xl drop-shadow-black animate-fade-scale animate-delay-1"
+          >
+            BARBERHOLIC
+          </h2>
+          <h1
+            class="text-4xl md:text-6xl font-bold drop-shadow-2xl drop-shadow-black animate-fade-scale"
+          >
+            BARBER SHOP
+          </h1>
+          <p
+            class="text-base md:text-lg max-w-xl mx-auto drop-shadow-2xl drop-shadow-black"
+          >
+            Το Barberholic, που δημιουργήθηκε το 2025 στην Κασσάνδρου στη
+            Θεσσαλονίκη, έχει ως στόχο να προσφέρει σε κάθε πελάτη μια ξεχωριστή
+            εμπειρία περιποίησης, με προσοχή στη λεπτομέρεια και έμφαση στην
+            ποιότητα.
+          </p>
+          <a href="book.html" class="inline-block bg-black text-white border border-white font-semibold px-6 py-3 rounded-xl hover:bg-white hover:text-black hover:border-black transition cursor-pointer">ΚΛΕΙΣΕ ΡΑΝΤΕΒΟΥ</a>
+        </div>
+      </section>
 
-  <script src="booking.js"></script>
-</body>
+      <div class="flex flex-col -space-y-10 items-center py-2">
+        <h1 class="text-5xl font-bold text-black stroke-text-bl">
+          BARBERHOLIC
+        </h1>
+        <h1 class="text-5xl font-bold text-white stroke-text-wh">
+          BARBERHOLIC
+        </h1>
+      </div>
+
+<!-- INFO SECTION -->
+<section
+  class="w-full max-w-6xl mx-auto px-4 pt-6 pb-2 space-y-12 text-center"
+  id="infoSection"
+>
+  <div class="space-y-6 bg-black p-4">
+    <h3 class="text-2xl md:text-3xl font-semibold text-white">
+      ΣΧΕΤΙΚΑ ΜΕ ΕΜΑΣ
+    </h3>
+
+    <!-- Desktop layout: Υπηρεσίες πάνω, τα δύο άλλα δίπλα-δίπλα κάτω -->
+    <div class="flex flex-col gap-6 md:gap-8">
+      <!-- Card 1: Υπηρεσίες -->
+      <div
+        class=" p-6 rounded-xl flex flex-col items-center space-y-3 animate-fade-scale animate-delay-1"
+      >
+        <h4 class="font-semibold text-lg md:text-xl mb-2">ΥΠΗΡΕΣΙΕΣ</h4>
+
+        <img
+          src="/src/assets/icons8-scissors-96.png"
+          class="w-16"
+          alt="scissors icon"
+        />
+        <h4 class="font-semibold text-lg md:text-xl mb-2">ΚΟΥΡΕΜΑ</h4>
+        <p>
+          Κουρέματα με ακρίβεια και προσοχή στη λεπτομέρεια, προσαρμοσμένα
+          στο προσωπικό σου στυλ.
+        </p>
+
+        <img
+          src="/src/assets/icons8-razor-100.png"
+          class="w-16"
+          alt="razor icon"
+        />
+        <h4 class="font-semibold text-lg md:text-xl mb-2">ΞΥΡΙΣΜΑ</h4>
+        <p>
+          Καθαρό και απαλό ξύρισμα με φροντίδα για την άνεση και την υγεία
+          του δέρματος.
+        </p>
+
+        <img
+          src="/src/assets/icons8-comb-96.png"
+          class="w-16"
+          alt="comb icon"
+        />
+        <h4 class="font-semibold text-lg md:text-xl mb-2">ΣΤΥΛ</h4>
+        <p>
+          Προσωπικό στυλ που αναδεικνύει την καλύτερη σου εικόνα, με
+          συμβουλές για να παραμένει φρέσκο κάθε μέρα.
+        </p>
+      </div>
+
+      <!-- Cards 2 & 3: Ωρες + Τοποθεσία -->
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex-1  p-6 rounded-xl animate-fade-scale animate-delay-2">
+          <h4 class="font-semibold text-lg md:text-xl mb-2">
+            ΩΡΕΣ ΛΕΙΤΟΥΡΓΙΑΣ
+          </h4>
+          <p>
+            ΔΕΥ: 10πμ - 6μμ<br />
+            ΤΡ/ΠΑΡ: 10πμ - 8μμ<br />
+            ΣΑΒ: 10πμ - 6μμ<br />
+            ΑΡΓΕΙΕΣ: ΚΛΕΙΣΤΑ
+          </p>
+        </div>
+
+        <div class="flex-1 p-6 rounded-xl animate-fade-scale animate-delay-3">
+          <h4 class="font-semibold text-lg md:text-xl mb-2">ΤΟΠΟΘΕΣΙΑ</h4>
+          <p>Barberholic</p>
+          <p>Κασσάνδρου 107, Θεσσαλονίκη</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <div class="flex justify-center items-center mt-2">
+    <!-- BOOK BUTTON -->
+     <a href="book.html" class="inline-block bg-black text-white border border-white font-semibold px-6 py-3 rounded-xl hover:bg-white hover:text-black hover:border-black transition cursor-pointer">ΚΛΕΙΣΕ ΡΑΝΤΕΒΟΥ</a>
+  </div>
+
+      <!-- CONTACT SECTION -->
+      <section
+  class="w-full text-black flex flex-col items-center space-y-6 py-8"
+  id="contact"
+>
+  <h3 class="text-2xl font-semibold">ΕΠΙΚΟΙΝΩΝΙΑ</h3>
+
+  <!-- Contact info -->
+  <div
+    class="flex flex-col md:flex-row flex-wrap md:justify-center md:gap-x-8 gap-y-4 text-center items-center w-full md:text-xl"
+  >
+    <!-- Instagram -->
+    <div class="flex items-center flex-1 justify-center gap-6">
+      
+      <a
+        href="https://www.instagram.com/barberholic2025"
+        target="_blank"
+        class="hover:scale-110"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-8"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7.75 2h8.5C19.993 2 22 4.007 22 6.75v10.5C22 19.993 19.993 22 16.25 22h-8.5C4.007 22 2 19.993 2 16.25V6.75C2 4.007 4.007 2 7.75 2zm0 1.5C5.679 3.5 4 5.179 4 7.25v9.5C4 18.821 5.679 20.5 7.75 20.5h8.5c2.071 0 3.75-1.679 3.75-3.75v-9.5c0-2.071-1.679-3.75-3.75-3.75h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.25-.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"
+          />
+        </svg>
+      </a>
+      <span>Social</span>
+    </div>
+
+    <!-- Email -->
+    <div class="flex items-center flex-1 justify-center gap-6">
+      <img src="/src/assets/icons8-email-100.png" class="w-6" alt="" />
+      <a href="mailto:barberholic.2025@gmail.com" class="hover:underline"
+        >barberholic.2025@gmail.com</a
+      >
+    </div>
+
+    <!-- Phone -->
+    <div class="flex items-center flex-1 justify-center gap-4">
+      <img src="/src/assets/icons8-phone-100.png" class="w-6" alt="" />
+      <a href="tel:+302312345678" class="hover:underline">+30 2312 955 747</a>
+    </div>
+
+    <!-- Location -->
+    <div class="flex items-center flex-1 justify-center gap-4">
+      <img src="/src/assets/icons8-location-100.png" class="w-6" alt="" />
+      <a href="https://maps.app.goo.gl/TYacMgGmUPn2kGZQ9" class="hover:underline"
+        >Κασσάνδρου 107, Θεσσαλονίκη</a
+      >
+    </div>
+  </div>
+</section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="w-full bg-black text-white flex flex-col md:flex-row justify-between items-center px-6 py-4 space-y-2 md:space-y-0"
+    >
+      <h1 class="text-sm md:text-xl font-semibold">
+        Copyright &copy; 2026 Barberholic
+      </h1>
+      <h1 class="text-sm md:text-xl font-semibold">
+        Website created by
+        <a
+          href="https://orfanidiswebdev.gr"
+          target="_blank"
+          class="underline hover:text-gray-300"
+          >GEO</a
+        >
+      </h1>
+    </footer>
+
+    <script src="/src/main.js" type="module"></script>
+  </body>
 </html>

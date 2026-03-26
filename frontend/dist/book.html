@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liakos Barber Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <script type="module" crossorigin src="/assets/book-RvXwXQ7Q.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/main-BkL3tepQ.js">
+    <link rel="stylesheet" crossorigin href="/assets/main-CfCOfs9e.css">
+  </head>
+  <body class="m-0 p-0 overflow-x-hidden flex flex-col min-h-screen">
+    <header class="w-full relative top-0 left-0 z-50">
+      <nav
+        class="w-full bg-black flex items-center px-4 py-3 h-20 relative z-50"
+      >
+        <!-- Logo -->
+        <img
+          src="/images/logo.png"
+          class="w-16 md:w-22 lg:w-20 mr-auto"
+          alt="Barbershop logo"
+        />
+
+        <!-- Desktop Menu -->
+        <div
+          class="hidden md:flex text-white text-md md:text-2xl gap-10 font-semibold"
+        >
+          <a href="index.html">ΑΡΧΙΚΗ</a>
+          <a href="book.html">ΡΑΝΤΕΒΟΥ</a>
+          <a href="index.html#contact">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+        </div>
+
+        <!-- Hamburger -->
+        <button
+          id="menuBtn"
+          class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-0.5"
+        >
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+        </button>
+      </nav>
+
+      <!-- Mobile Dropdown -->
+      <div
+        id="mobileMenu"
+        class="fixed top-20 left-0 w-full bg-white text-black py-2 px-4 flex items-center justify-center text-lg opacity-0 pointer-events-none transition-all duration-300 z-40 font-semibold text-center"
+      >
+        <a href="index.html" class="flex-1 text-center">ΑΡΧΙΚΗ</a>
+        <a href="book.html" class="flex-1 text-center pr-4">ΡΑΝΤΕΒΟΥ</a>
+        <a href="index.html#contact" class="flex-1 text-center">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+      </div>
+    </header>
+    <main
+      class="bg-[url('/images/barberPole.jpg')] bg-cover bg-center text-white sm:pb-20 md:pb-0 flex-1 flex justify-center items-center overflow-y-hidden"
+      id="mainSection"
+    >
+      <!-- Glass box -->
+      <div
+        class="flex flex-col text-lg w-[90%] lg:w-[60%] mx-auto border my-12 rounded-2xl bg-black/80 items-center space-y-2 lg:py-2"
+      >
+        <!-- Form container -->
+        <div
+          class="formCont w-full flex flex-col items-center px-4 py-4 sm:px-6 md:px-0"
+        >
+          <form
+            id="booking-form"
+            class="flex flex-col w-full max-w-md p-6 bg-white/10 border border-white/20 rounded-2xl space-y-3 text-white"
+          >
+            <h2 class="text-2xl font-bold text-center mb-2">
+              ΚΛΕΙΣΕ ΡΑΝΤΕΒΟΥ
+            </h2>
+            <h3 class="text-xs text-center">*Υποχρεωτικά πεδία</h3>
+
+            <!-- Name -->
+            <label class="text-sm">Όνομα*</label>
+            <input
+              type="text"
+              id="client_name"
+              class="w-full py-1.5 px-3 text-sm border border-white/20 rounded-lg bg-white/5 text-white placeholder:text-gray-400 focus:outline-none focus:border-white"
+              required
+            />
+
+            <!-- Phone -->
+            <label class="text-sm">Τηλέφωνο*</label>
+            <input
+              type="text"
+              id="phone"
+              class="w-full py-1.5 px-3 text-sm border border-white/20 rounded-lg bg-white/5 text-white placeholder:text-gray-400 focus:outline-none focus:border-white"
+              required
+            />
+
+            <!-- Email -->
+            <label class="text-sm">Email</label>
+            <input
+              type="email"
+              id="email"
+              class="w-full py-1.5 px-3 text-sm border border-white/20 rounded-lg bg-white/5 text-white placeholder:text-gray-400 focus:outline-none focus:border-white"
+            />
+
+            <!-- Service -->
+            <label class="text-sm">Υπηρεσία*</label>
+            <div class="w-full relative" id="serviceDropdown">
+              <!-- Selected value -->
+              <button
+                type="button"
+                id="serviceBtn"
+                class="w-full py-1.5 px-3 text-sm border border-white/20 rounded-lg bg-white/5 text-white text-left flex justify-between items-center cursor-pointer"
+              >
+                <span id="serviceText">Επιλογή Υπηρεσίας</span>
+                <span>▼</span>
+              </button>
+
+              <!-- Options -->
+              <div
+                id="serviceOptions"
+                class="absolute left-0 mt-1 w-full bg-black border border-white/20 rounded-lg hidden flex flex-col z-50"
+              >
+                <div
+                  class="option px-3 py-2 text-sm hover:bg-white/10 cursor-pointer"
+                >
+                  Κούρεμα
+                </div>
+                <div
+                  class="option px-3 py-2 text-sm hover:bg-white/10 cursor-pointer"
+                >
+                  Μούσι
+                </div>
+                <div
+                  class="option px-3 py-2 text-sm hover:bg-white/10 cursor-pointer"
+                >
+                  Κούρεμα & Μούσι
+                </div>
+                <div
+                  class="option px-3 py-2 text-sm hover:bg-white/10 cursor-pointer"
+                >
+                  Παιδικό Κούρεμα
+                </div>
+              </div>
+            </div>
+
+            <!-- Date -->
+            <label class="text-sm">Ημερομηνία*</label>
+            <div class="w-full relative" id="dateDropdown">
+              <button
+                type="button"
+                id="dateBtn"
+                class="w-full py-1.5 px-3 text-sm border border-white/20 rounded-lg bg-white/5 text-white text-left flex justify-between items-center cursor-pointer"
+              >
+                <span id="dateText">Επιλογή Ημερομηνίας</span>
+                <span>▼</span>
+              </button>
+
+              <div
+                id="dateOptions"
+                class="absolute left-0 mt-1 w-full bg-black border border-white/20 rounded-lg hidden flex flex-col z-50 max-h-60 overflow-y-auto"
+              >
+                <!-- Options inserted dynamically -->
+              </div>
+            </div>
+
+            <!-- Time -->
+            <label class="text-sm">Ώρα*</label>
+            <div class="w-full relative" id="timeDropdown">
+              <button
+                type="button"
+                id="timeBtn"
+                class="w-full py-1.5 px-3 text-sm border border-white/20 rounded-lg bg-white/5 text-white text-left flex justify-between items-center cursor-pointer"
+              >
+                <span id="timeText">Επιλογή Ωρας</span>
+                <span>▼</span>
+              </button>
+
+              <div
+                id="timeOptions"
+                class="absolute left-0 mt-1 w-full bg-black border border-white/20 rounded-lg hidden flex flex-col z-50 max-h-60 overflow-y-auto"
+              >
+                <!-- Options inserted dynamically -->
+              </div>
+            </div>
+
+            <!-- Button -->
+            <button
+              type="submit"
+              class="w-full bg-white text-black py-2 text-sm rounded-lg hover:bg-gray-200 transition mt-2 cursor-pointer"
+            >
+              Υποβολή
+            </button>
+
+            <p id="message" class="mt-2 text-center text-white text-sm"></p>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="w-full bg-black text-white flex flex-col md:flex-row justify-between items-center px-6 py-4 sm:h-18 md:h-15 space-y-2 md:space-y-0 bottom-0 left-0 relative"
+    >
+      <h1 class="text-sm md:text-xl font-semibold">
+        Copyright &copy; 2026 Barberholic
+      </h1>
+      <h1 class="text-sm md:text-xl font-semibold">
+        Website created by
+        <a
+          href="https://orfanidiswebdev.gr"
+          target="_blank"
+          class="text-white underline hover:text-gray-300"
+          >GEO</a
+        >
+      </h1>
+    </footer>
+
+    <!-- Modal Overlay -->
+    <div
+      id="bookingModal"
+      class="fixed inset-0 bg-black/55 backdrop-blur-sm flex items-center justify-center hidden z-50 transition-opacity duration-300 opacity-0"
+    >
+      <!-- Modal Content -->
+      <div
+        id="modalContent"
+        class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl transform transition-all duration-300 scale-75 opacity-0"
+      >
+        <div
+          id="checkIcon"
+          class="text-green-500 text-6xl mb-4 transform scale-0"
+        >
+          ✅
+        </div>
+
+        <h2 class="text-xl font-bold mb-2">Ευχαριστούμε!</h2>
+
+        <p id="modalMessage" class="text-gray-700 mb-4"></p>
+
+        <button
+          id="closeModal"
+          class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition cursor-pointer"
+        >
+          Κλείσιμο
+        </button>
+      </div>
+    </div>
+
+  </body>
+</html>

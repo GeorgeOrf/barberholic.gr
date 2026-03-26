@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liakos Barber Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <script type="module" crossorigin src="/assets/main-BkL3tepQ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-CfCOfs9e.css">
+  </head>
+  <body class="m-0 p-0 overflow-x-hidden flex flex-col min-h-screen">
+    <header class="w-full relative top-0 left-0 z-50">
+      <nav
+        class="w-full bg-black flex items-center px-4 py-3 h-20 relative z-50"
+      >
+        <!-- Logo -->
+        <img
+          src="/images/logo.png"
+          class="w-16 md:w-22 lg:w-20 mr-auto"
+          alt="Barbershop logo"
+        />
+
+        <!-- Desktop Menu -->
+        <div
+          class="hidden md:flex text-white text-md md:text-2xl gap-10 font-semibold"
+        >
+          <a href="index.html">ΑΡΧΙΚΗ</a>
+          <a href="book.html">ΡΑΝΤΕΒΟΥ</a>
+          <a href="index.html#contact">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+        </div>
+
+        <!-- Hamburger -->
+        <button
+          id="menuBtn"
+          class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-0.5"
+        >
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+          <span
+            class="w-6 h-1 bg-white rounded-full bar transition-all duration-300 origin-center"
+          ></span>
+        </button>
+      </nav>
+
+      <!-- Mobile Dropdown -->
+      <div
+        id="mobileMenu"
+        class="fixed top-20 left-0 w-full bg-white text-black py-2 px-4 flex items-center justify-center text-lg opacity-0 pointer-events-none transition-all duration-300 z-40 font-semibold text-center"
+      >
+        <a href="index.html" class="flex-1 text-center">ΑΡΧΙΚΗ</a>
+        <a href="book.html" class="flex-1 text-center pr-4">ΡΑΝΤΕΒΟΥ</a>
+        <a href="index.html#contact" class="flex-1 text-center">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+      </div>
+    </header>
+
+    <main class="text-white flex flex-col">
+      <!-- HERO SECTION -->
+      <section
+        class="h-screen w-full bg-[url('/images/barberPole.jpg')] bg-cover bg-center flex items-center justify-center text-center flex-col space-y-6"
+      >
+        <div class="space-y-4 w-full md:w-[50%] mx-auto">
+          <h2
+            class="text-xl md:text-2xl font-bold drop-shadow-2xl drop-shadow-black animate-fade-scale animate-delay-1"
+          >
+            BARBERHOLIC
+          </h2>
+          <h1
+            class="text-4xl md:text-6xl font-bold drop-shadow-2xl drop-shadow-black animate-fade-scale"
+          >
+            BARBER SHOP
+          </h1>
+          <p
+            class="text-base md:text-lg max-w-xl mx-auto drop-shadow-2xl drop-shadow-black"
+          >
+            Το Barberholic, που δημιουργήθηκε το 2025 στην Κασσάνδρου στη
+            Θεσσαλονίκη, έχει ως στόχο να προσφέρει σε κάθε πελάτη μια ξεχωριστή
+            εμπειρία περιποίησης, με προσοχή στη λεπτομέρεια και έμφαση στην
+            ποιότητα.
+          </p>
+          <a href="book.html" class="inline-block bg-black text-white border border-white font-semibold px-6 py-3 rounded-xl hover:bg-white hover:text-black hover:border-black transition cursor-pointer">ΚΛΕΙΣΕ ΡΑΝΤΕΒΟΥ</a>
+        </div>
+      </section>
+
+      <div class="flex flex-col -space-y-10 items-center py-2">
+        <h1 class="text-5xl font-bold text-black stroke-text-bl">
+          BARBERHOLIC
+        </h1>
+        <h1 class="text-5xl font-bold text-white stroke-text-wh">
+          BARBERHOLIC
+        </h1>
+      </div>
+
+<!-- INFO SECTION -->
+<section
+  class="w-full max-w-6xl mx-auto px-4 pt-6 pb-2 space-y-12 text-center"
+  id="infoSection"
+>
+  <div class="space-y-6 bg-black p-4">
+    <h3 class="text-2xl md:text-3xl font-semibold text-white">
+      ΣΧΕΤΙΚΑ ΜΕ ΕΜΑΣ
+    </h3>
+
+    <!-- Desktop layout: Υπηρεσίες πάνω, τα δύο άλλα δίπλα-δίπλα κάτω -->
+    <div class="flex flex-col gap-6 md:gap-8">
+      <!-- Card 1: Υπηρεσίες -->
+      <div
+        class=" p-6 rounded-xl flex flex-col items-center space-y-3 animate-fade-scale animate-delay-1"
+      >
+        <h4 class="font-semibold text-lg md:text-xl mb-2">ΥΠΗΡΕΣΙΕΣ</h4>
+
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAJUklEQVR4nO2da6wdVRWA5wKCtApUhKrQ8pCHQOCHgkJMiFGEghpCAhUEg/yAKgYUizRBEw1PH7FWEoM8LQS5CNzSUB7FQqm8CrQqILQFAYulWMC20it4q8BnVs/acd/dPTN75s45M2ef8yUn93H2XrNmzZx99l57rTVJ0nCAj42h797VatODADPG0Pe8arXpQYBHxtD34Wq16UGAfwF7lui3m/Rtj1Y9BLABmF6i3znAG+3RqocA/gk8VKLfA8C69mjVQwBrgXeAjxToMxF4G3i9vdr1AMDrtPhGgT7TtM+a9mrXAwBr1Ji/K9BnvvZ5ub3a9QDAajXmf4APBLTfAdiofV7qjJYRA6zi/5wa0P4Uq/2LndEyYoCVlkHnBrQfstr/pTNaRgzwomXQfwPvz2g7ThduhuWd1TZCgBWM5viMtsc5bZ/prLYRAvzBMeqNGW2vd9o+2VltIwT4vWNUcU2819PuPbLyddo+Wo/WEQHcyeZ8wdNuiqfdffVoHRHAzR7DXu1pd4Wn3e31aB0RwLUew/4D2MpqswXwd0+7wXq1jwDgMvx8xmpzeEqbq+rVPgKAS1KMe5nVZmZKm5/Xq30EAOenGPd5fX8A+GtKm+/XrX/XA5yVYtx5+v7HSSfYhd0nBVn5phj3NH3/oowLMDVNbp9AgMM8hv0v8EF9f1nGBTiibv27HmCyx7D36nv7kM1+devf9QBb6f6uzTf1ve/lXIBUz2mfAjB6kfUusKv+f2mG8fsREVUBLHEdbBp4JRcjjb4ntCqA2yzDbor3BL6dM/wM1a13NAAXW4bdxwq8yuKSuvWOBuAr9rBiBV5lkbuB3ycQ4EA16g/179PJ51Oh8vvkAGytcUEHOYFXacinY1ye3D4FAO7wBF6l0d+MrxrgEP15csDw85u69Y0WRgdepXFu3XpGCZsHXqXxubp1jRJGB17dJS4JYBdP5MQmT2mfimF04NUk6/9yEQx/q1fLSKEVeLU+5QLIJ8EgKU1b16tthABHOcPMfN0rmATc7bx3dN36Rgf+wKs0rqxb36ggPfAqDckr27JuvaOB9MCrLA6vW+9owB949Yw45/Qlv7vMqlvvWLNkhF972sxmNJJbNlCPxhEBHOwY9lnfZjsw3vNJOLgerbsMWtPJIXUziKfzT8AZ+uVrB169CRyQIecAbWO4WGVMU5kb9RhyrMmdPcuGQmtz3c1sMdwuiXbW318LkHea1X6FyvAhx9wt6XWAOYQxu4DM6wJlzkl6HWA4wFAyto8vIHN8TsiioV9PiFbSXR7nl5CbFzUnDCe9DqNjflxMoY67Ssid78jwcVvS6wD7pnwJvwp8Vn9fWULuS9pXZLzmkS/H3Lc9Z9Vl0HIn36yuZDHWjcBHJR+47FBh7Zxtq7IG1Uckx/itiS/tk/9lKrxZou9b2rcfIV0WWgsr4YUxuC9SF269vOId1tdQ1opUohvy6kNk9L1J+04voM/csVTqbTRyYs6WomG976R1/H8ur0JKxvGmat/nUmpLFNIn9unmXE/7WdYibIsSx9vScmPMLKhPfNNTKaKaccLDVrsBKzl741iCbDXBT2JKUZkDgQvADUnExfdST5iW6/lh+8JoXYjVurLN/SSo91OSu1/Wvrar4xHgEwE3RHwVd4EbMk74FeAxKgg5BL4bIOcxPWbvZNdI5duck0aHhYWbfmvlf83UmcpxoVUQrSJ/x2rfWVYu2cIA39Nak4UTHRIyCPxSazuMSFVDYAHwEzWYrFpv9RXakPrRUj0r4BgPAouc//1CZc7RYxyrx1ygOozoClmmrrskMQJ8GLgAeEJ3rd6RMEKdjRxvxnfLeTa54k0fTC1p/Z6YqvP+VfoJERfIIuAHwM5JLADbAD8LSKpYIpntVvxPZUbQnDLUyPvn5Beb8pg/knDIpJvRO8+uevik3u07AzsCJ+gmu+2hXG1nOQJf0u8OuVOnBBzzaJ0BrTa15YBLVeYaZ/G1QvXZUXWST8VT1vuPdq3TDviQjq+Gq3x3FLA9sNhzF8qw8CsnIi63FrQOa4ZXMkIaZUq6XUo+2rXORdop6Sb0i07GesMNARdrnaciisvKghfA8LZnpjMxQ8aAuq8NS33ujG6JZFsekrEInO0YSf6+UjyhOkuRDZYjA+RM0bYj6hG92nLqGc4KzMaxq/b+OOkGgE/rDMdwVGC/7Zw5+j0V6nSfJfeN0D0C+Q5xPkWfTJqOtZDCnY8H9B10vgOCH1sSMAUtlUHpuEaCHyJRC3KHOCd7YsH+Z1ZdbsCTVT+tYP+vdk24o9xdlqLiBNumYP9DnZO9vgKdZH/ZptAwovsSdmbmdUmX5HDNKyFjkmOswo+v8sh83JFZeFhzUqDWN3KB5snhml5y1WyzqgK93LigwsaTGkWNz0MGLnSUPKbk+sHmrQr0ctcThefzwBcdGZuqtjS9hEDhoCdaU9FKN0accHV8q98AGbJ/bHNL0jScMHJhhxIy9nZkjPlJeLrqtdmrhIwJjoxlSdPwRBgUrtcDHOPIWFGBXiaywjClhIz3OTLWJk2jorH23KofwKA1JWzOKSFD3BI2I0nT8Pj7J5WQcacj44IK9Lp0rBcV2N2RUThUspMP3TQcWmIKOuzI+HwFesn+gM2GorUk1L9l07yHhAJ/dJQ8s2D/k53+4jTbtgK9xnkubKGq6sC3nP6PJw13Qwg3Fez/YNmcsBK63V+wvwkUaK47Qh6W4Cgp8+8JJdy+lZedFFlsTtBsSIsEumuJ05OmAezhqeX8ncAhYrnTb2Eb9HMr7S4LGeI8M7N3G5ve6uwFmHF81wJbf+hmTuUuX33Uib1RlLs3oMFk7vpmQdJUUoaSJb5VsW5+z/a0/2kb9TMBWjbXpAQLTPA8x7LUQq6jaLSZy/PASRr6IQFaJwJPe9otbme5MZ3q2qXwDX8Gvqy6TdRa1bIX7TI/6ZKEO3dNEMLyTlQ71JvAjkUK5dUqtkg7go63EhoeyuJOhgNqIFZe+Xub9R3bkNfZzJE6ZHwdmKFhepdrkNOgppTO0+FmkcbNLNWP7Qt6t0hYSCyM6DmZ8zPne7/aYJ7aZFBtdLnabIba8CS16R6hF+AI4BTrAlyo8Z1XaATxkB5YXvdaCi3VaDij6GsacLWuyy7IRktvGU7N+djGl5fM+owdJNBX8o/FRhIXJWV2zAUQW4pNN7sA/wMFCFe89yU/uAAAAABJRU5ErkJggg=="
+          class="w-16"
+          alt="scissors icon"
+        />
+        <h4 class="font-semibold text-lg md:text-xl mb-2">ΚΟΥΡΕΜΑ</h4>
+        <p>
+          Κουρέματα με ακρίβεια και προσοχή στη λεπτομέρεια, προσαρμοσμένα
+          στο προσωπικό σου στυλ.
+        </p>
+
+        <img
+          src="data:image/png;base64,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"
+          class="w-16"
+          alt="razor icon"
+        />
+        <h4 class="font-semibold text-lg md:text-xl mb-2">ΞΥΡΙΣΜΑ</h4>
+        <p>
+          Καθαρό και απαλό ξύρισμα με φροντίδα για την άνεση και την υγεία
+          του δέρματος.
+        </p>
+
+        <img
+          src="data:image/png;base64,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"
+          class="w-16"
+          alt="comb icon"
+        />
+        <h4 class="font-semibold text-lg md:text-xl mb-2">ΣΤΥΛ</h4>
+        <p>
+          Προσωπικό στυλ που αναδεικνύει την καλύτερη σου εικόνα, με
+          συμβουλές για να παραμένει φρέσκο κάθε μέρα.
+        </p>
+      </div>
+
+      <!-- Cards 2 & 3: Ωρες + Τοποθεσία -->
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex-1  p-6 rounded-xl animate-fade-scale animate-delay-2">
+          <h4 class="font-semibold text-lg md:text-xl mb-2">
+            ΩΡΕΣ ΛΕΙΤΟΥΡΓΙΑΣ
+          </h4>
+          <p>
+            ΔΕΥ: 10πμ - 6μμ<br />
+            ΤΡ/ΠΑΡ: 10πμ - 8μμ<br />
+            ΣΑΒ: 10πμ - 6μμ<br />
+            ΑΡΓΕΙΕΣ: ΚΛΕΙΣΤΑ
+          </p>
+        </div>
+
+        <div class="flex-1 p-6 rounded-xl animate-fade-scale animate-delay-3">
+          <h4 class="font-semibold text-lg md:text-xl mb-2">ΤΟΠΟΘΕΣΙΑ</h4>
+          <p>Barberholic</p>
+          <p>Κασσάνδρου 107, Θεσσαλονίκη</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <div class="flex justify-center items-center mt-2">
+    <!-- BOOK BUTTON -->
+     <a href="book.html" class="inline-block bg-black text-white border border-white font-semibold px-6 py-3 rounded-xl hover:bg-white hover:text-black hover:border-black transition cursor-pointer">ΚΛΕΙΣΕ ΡΑΝΤΕΒΟΥ</a>
+  </div>
+
+      <!-- CONTACT SECTION -->
+      <section
+  class="w-full text-black flex flex-col items-center space-y-6 py-8"
+  id="contact"
+>
+  <h3 class="text-2xl font-semibold">ΕΠΙΚΟΙΝΩΝΙΑ</h3>
+
+  <!-- Contact info -->
+  <div
+    class="flex flex-col md:flex-row flex-wrap md:justify-center md:gap-x-8 gap-y-4 text-center items-center w-full md:text-xl"
+  >
+    <!-- Instagram -->
+    <div class="flex items-center flex-1 justify-center gap-6">
+      
+      <a
+        href="https://www.instagram.com/barberholic2025"
+        target="_blank"
+        class="hover:scale-110"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-8"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7.75 2h8.5C19.993 2 22 4.007 22 6.75v10.5C22 19.993 19.993 22 16.25 22h-8.5C4.007 22 2 19.993 2 16.25V6.75C2 4.007 4.007 2 7.75 2zm0 1.5C5.679 3.5 4 5.179 4 7.25v9.5C4 18.821 5.679 20.5 7.75 20.5h8.5c2.071 0 3.75-1.679 3.75-3.75v-9.5c0-2.071-1.679-3.75-3.75-3.75h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.25-.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"
+          />
+        </svg>
+      </a>
+      <span>Social</span>
+    </div>
+
+    <!-- Email -->
+    <div class="flex items-center flex-1 justify-center gap-6">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE0ElEQVR4nO2bV4gkRRjHa11zdteZrv+/emZ0XVFXxbBiRBEDBoyIopgQA9yTj776ePjmwz2cIooiKooJAyqCEUVRMZ4Bc856p57hPKWOGWiWqtmJ3V/3fD8omIfp6qr6VVf4qtsYRVEURVEURVEURVEURVEUpQKQ/E8TxSQVQllJhVBWUiEULqToOW3SUCHCUCHCUCHCUCFlEwLgOmPMdNEFnQCmfVsvK6Sdnq7X60nRJa4qJGdJPt7TsjfzpHzunDus6MJXDZIHkfyo533IEil/Arii6EpUBWvtRSR/72tjGEmrFxYWtiy6QiVmc5IrB9qpA1gVeVqebzQaLLpmZcO3mW+7SJuu6mnZC+DCyKP1nXPuuKIrWRYAHAXgq4CI9QAu72sfQvLAyOTzD4BrCq1pCQBwFYC/AjI+S9P00IE2hu3l2WOR8e52ANsWUlvBtFqtrQHcFGmzp5IkqWf/35eQzAbmWpL/Bmy/Vq/X5/KrrmxINki+FBCxkeT1fnIPXNO3kM6FpwP4JSDlRwAnmQnHOXcsyW8DMtY5586NXTewkPbFe5F8O9IDVhpjNjOTx5SfU0luCHTW95Mk2a/bxUMJ8czOzu5A8p7IMu7Bubm5ncyEUKvVtgdwd6QtHmq1Wjsvl8fQQnroFe8lSbKvqTjOuT1JvjXsaDEqIZuw1p7s55BAodZaa88xFYXkaQB+DtT7VwBn9pnX6IR4ADRJvtylp1QplD/VHhlCK87XG43GHv1mOHIhmbX3zZG196Npms6YkjMzM7Mjyfsj88UdSZJsN0i+YxGyZHf6d6DQn1prDzElxTl3AMkPxxG1GKsQD4CjSX4d6EXrSV5mSgaAC0j+FpDxPcnjh81/7EI8aZo6AC9EhrDVi4uLW5hyh8xfsda2RnGTXIR45ufnt/LhgkiFnq3VatYIBcCuAJ6MlP3WNE23GdW9chPSwVp7MYA/AkPYFySPMMIAsEjyk8jp6ZWjvl/uQjwADib5caSSVxshOOcuiXUe59zh47hnIUIyw8ATeQwDAw6vN0TK9sw4h9fChLSZbk+UG0MTZZIku5mcKXoBUrSQTiHO77KUPMHkhLX2mC5L9EvzKIMIIR4Ae5NcE5Cyob3Zmhrz/YObWAAfpGm6v8kJMUIy4Yj7QsMFgDsHDUf0EOa5JTJEPdJsNncxOSJKyHIBO5Jr/JM0qhulaToP4A1JB2wShWzCOXdql5D2WcPmb609BcBPgfzXAjjbFIRYIZ0eTPLNEffgbiHzd621+5gCES0kcyx6V2ReebiXY9Elx833RvJ6QMJxs3ghvayClntxIPNCxjtFreIqJySzT/gm0KjrSJ5nIpA8I/LK0g8ATjSCKJUQj3MuBfBijzvpaCQAwKtJkuxuhFE6IZlY043dvvbq9lUSydukvvZaSiEdSK4IvcDcDpeHQub+vyuMYEotxOPP5v0ZfeRJyMr4kuSRRjilF+Kx1ta6nOj59Fyz2YQpAZUQssyZd6k+v6uSENP52suf6Pmvhv1vUzIqJ6TsqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqBBhqJCyCdHEQpMKoaykQigrqRDKSkXPaYqiKIqiKIqiKIqiKIqiKIoZAf8D/ZM223/iJAwAAAAASUVORK5CYII=" class="w-6" alt="" />
+      <a href="mailto:barberholic.2025@gmail.com" class="hover:underline"
+        >barberholic.2025@gmail.com</a
+      >
+    </div>
+
+    <!-- Phone -->
+    <div class="flex items-center flex-1 justify-center gap-4">
+      <img src="data:image/png;base64,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" class="w-6" alt="" />
+      <a href="tel:+302312345678" class="hover:underline">+30 2312 955 747</a>
+    </div>
+
+    <!-- Location -->
+    <div class="flex items-center flex-1 justify-center gap-4">
+      <img src="data:image/png;base64,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" class="w-6" alt="" />
+      <a href="https://maps.app.goo.gl/TYacMgGmUPn2kGZQ9" class="hover:underline"
+        >Κασσάνδρου 107, Θεσσαλονίκη</a
+      >
+    </div>
+  </div>
+</section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="w-full bg-black text-white flex flex-col md:flex-row justify-between items-center px-6 py-4 space-y-2 md:space-y-0"
+    >
+      <h1 class="text-sm md:text-xl font-semibold">
+        Copyright &copy; 2026 Barberholic
+      </h1>
+      <h1 class="text-sm md:text-xl font-semibold">
+        Website created by
+        <a
+          href="https://orfanidiswebdev.gr"
+          target="_blank"
+          class="underline hover:text-gray-300"
+          >GEO</a
+        >
+      </h1>
+    </footer>
+
+  </body>
+</html>
