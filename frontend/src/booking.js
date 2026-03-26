@@ -101,7 +101,7 @@ let selectedTime = "";
 async function populateDates() {
   const holidays = await getHolidays();
 
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 60; i++) {
     const d = new Date();
     d.setDate(d.getDate() + i);
     const options = { weekday: "long", month: "short", day: "numeric" };

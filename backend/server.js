@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { google } from "googleapis";
 import pool from './db.js';
+import ical from 'node-ical';
 
 dotenv.config();
 const app = express();
@@ -131,6 +132,23 @@ app.get("/services", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.get('/holidays', async (req, res) => {
+  try {
+    const data = await ical.async.fromURL(
+      "https://calendar.google.com/calendar/ical/en.greek%23holiday%40group.v.calendar.google.com/public/basic.ics"
+    );
+
+    const holidays = Object.values(data)
+      .filter(event => event.type === 'VEVENT')
+      .map(event => event.start.toISOString().split('T')[0]);
+
+    res.json(holidays);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch holidays' });
   }
 });
 
