@@ -1,23 +1,9 @@
-
 const serviceBtn = document.getElementById("serviceBtn");
 const serviceOptions = document.getElementById("serviceOptions");
 const serviceText = document.getElementById("serviceText");
 const options = serviceOptions.querySelectorAll(".option");
 let selectedService = "";
 let serviceOpen = false;
-
-// Fetch public holidays
-async function getHolidays() {
-  try {
-    const res = await fetch("https://barberholic-gr.onrender.com/holidays");
-    if (!res.ok) throw new Error("Failed to fetch holidays from backend");
-    const holidays = await res.json();
-    return holidays;
-  } catch (err) {
-    console.error("Error fetching holidays:", err);
-    return [];
-  }
-}
 
 // Toggle dropdown
 serviceBtn.addEventListener("click", () => {
@@ -44,6 +30,13 @@ document.addEventListener("click", (e) => {
 
 async function loadServices() {
   try {
+     serviceOptions.innerHTML = `
+      <div class="flex items-center px-3 py-2 text-sm gap-2">
+        <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        Loading...
+      </div>
+    `;
+
     const res = await fetch("https://barberholic-gr.onrender.com/services");
     const services = await res.json();
 
@@ -97,41 +90,29 @@ const timeOptions = document.getElementById("timeOptions");
 let selectedDate = "";
 let selectedTime = "";
 
-// check if public holiday and populate dates
-async function populateDates() {
-  const holidays = await getHolidays();
+// Populate dates dynamically (14 days)
+for (let i = 0; i < 14; i++) {
+  const d = new Date();
+  d.setDate(d.getDate() + i);
+  const options = { weekday: "long", month: "short", day: "numeric" };
+  const text = d.toLocaleDateString("el-GR", options);
 
-  for (let i = 0; i < 14; i++) {
-    const d = new Date();
-    d.setDate(d.getDate() + i);
-    const options = { weekday: "long", month: "short", day: "numeric" };
-    const text = d.toLocaleDateString("el-GR", options);
-    const dateStr = d.toISOString().split("T")[0];
+  const div = document.createElement("div");
+  div.className = "option px-3 py-2 text-sm hover:bg-white/10 cursor-pointer";
+  div.textContent = text;
+  div.dataset.value = d.toISOString().split("T")[0];
 
-    const div = document.createElement("div");
-    div.className = "option px-3 py-2 text-sm hover:bg-white/10 cursor-pointer";
-    div.textContent = text;
-    div.dataset.value = dateStr;
+  div.addEventListener("click", async () => {
+    dateText.textContent = text;
+    selectedDate = div.dataset.value;
+    dateOptions.classList.add("hidden");
 
-    if (holidays.includes(dateStr)) {
-      div.classList.add("cursor-not-allowed", "text-gray-500", "hover:bg-transparent");
-      div.addEventListener("click", () => {
-        alert("Αυτή η μέρα είναι αργία, διάλεξε άλλη!");
-      });
-    } else {
-      div.addEventListener("click", async () => {
-        dateText.textContent = text;
-        selectedDate = div.dataset.value;
-        dateOptions.classList.add("hidden");
-        await loadTimes(selectedDate);
-      });
-    }
+    // Load times for this date
+    await loadTimes(selectedDate);
+  });
 
-    dateOptions.appendChild(div);
-  }
+  dateOptions.appendChild(div);
 }
-
-populateDates();
 
 // Toggle date dropdown
 dateBtn.addEventListener("click", () => dateOptions.classList.toggle("hidden"));
@@ -143,77 +124,83 @@ document.addEventListener("click", (e) => {
 
 // Load available times for selected date
 async function loadTimes(date) {
-  timeOptions.innerHTML = "";
+  // Βάζουμε spinner
+  timeOptions.innerHTML = `
+    <div class="flex items-center px-3 py-2 text-sm gap-2">
+      <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+      Loading...
+    </div>
+  `;
+  timeOptions.classList.remove("hidden"); // άνοιξε το dropdown αν ήταν κλειστό
 
-  const holidays = await getHolidays();
-  if (holidays.includes(date)) {
-    const div = document.createElement("div");
-    div.textContent = "Closed (Holiday)";
-    div.className = "option px-3 py-2 text-sm cursor-not-allowed text-gray-500";
-    timeOptions.appendChild(div);
-    return;
-  }
+  try {
+    const res = await fetch(`https://barberholic-gr.onrender.com/appointments?date=${date}`);
+    const booked = await res.json();
 
-  const res = await fetch(`https://barberholic-gr.onrender.com/appointments?date=${date}`);
-  const booked = await res.json();
+    // Καθαρίζουμε μόνο τώρα
+    timeOptions.innerHTML = "";
 
-  const dayOfWeek = new Date(date).getDay();
-  const hours = workingHoursByDay[dayOfWeek];
+    const dayOfWeek = new Date(date).getDay();
+    const hours = workingHoursByDay[dayOfWeek];
 
-  if (!hours) {
-    const div = document.createElement("div");
-    div.textContent = "Closed";
-    div.className = "option px-3 py-2 text-sm cursor-not-allowed text-gray-500";
-    timeOptions.appendChild(div);
-    return;
-  }
-
-  const { start, end } = hours;
-  const allTimes = [];
-  let currentHour = start;
-  let currentMin = 0;
-
-  while (currentHour < end) {
-    const timeStr = `${currentHour.toString().padStart(2, "0")}:${currentMin.toString().padStart(2, "0")}`;
-    allTimes.push(timeStr);
-
-    currentMin += 45;
-    if (currentMin >= 60) {
-      currentMin -= 60;
-      currentHour++;
-    }
-  }
-
-  const avaliable = allTimes.filter(t => !booked.some(b => b.time.startsWith(t)));
-
-  const now = new Date();
-  const minBookingTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-
-  const avaliableFiltered = avaliable.filter(t => {
-    const [hour, minute] = t.split(":").map(Number);
-    const slotDate = new Date(date);
-    slotDate.setHours(hour, minute, 0, 0);
-    return slotDate >= minBookingTime;
-  });
-
-  if (avaliableFiltered.length === 0) {
-    const div = document.createElement("div");
-    div.textContent = "No available times";
-    div.className = "option px-3 py-2 text-sm cursor-not-allowed text-gray-500";
-    timeOptions.appendChild(div);
-  } else {
-    avaliableFiltered.forEach(t => {
+    if (!hours) {
       const div = document.createElement("div");
-      div.className = "option px-3 py-2 text-sm hover:bg-white/10 cursor-pointer";
-      div.textContent = t;
-      div.dataset.value = t;
-      div.addEventListener("click", () => {
-        timeText.textContent = t;
-        selectedTime = t;
-        timeOptions.classList.add("hidden");
-      });
+      div.textContent = "Closed";
+      div.className = "option px-3 py-2 text-sm cursor-not-allowed text-gray-500";
       timeOptions.appendChild(div);
+      return;
+    }
+
+    const { start, end } = hours;
+    const allTimes = [];
+    let currentHour = start;
+    let currentMin = 0;
+
+    while (currentHour < end) {
+      const timeStr = `${currentHour.toString().padStart(2, "0")}:${currentMin.toString().padStart(2, "0")}`;
+      allTimes.push(timeStr);
+
+      currentMin += 45;
+      if (currentMin >= 60) {
+        currentMin -= 60;
+        currentHour++;
+      }
+    }
+
+    const avaliable = allTimes.filter(t => !booked.some(b => b.time.startsWith(t)));
+
+    const now = new Date();
+    const minBookingTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+
+    const avaliableFiltered = avaliable.filter(t => {
+      const [hour, minute] = t.split(":").map(Number);
+      const slotDate = new Date(date);
+      slotDate.setHours(hour, minute, 0, 0);
+      return slotDate >= minBookingTime;
     });
+
+    if (avaliableFiltered.length === 0) {
+      const div = document.createElement("div");
+      div.textContent = "No available times";
+      div.className = "option px-3 py-2 text-sm cursor-not-allowed text-gray-500";
+      timeOptions.appendChild(div);
+    } else {
+      avaliableFiltered.forEach(t => {
+        const div = document.createElement("div");
+        div.className = "option px-3 py-2 text-sm hover:bg-white/10 cursor-pointer";
+        div.textContent = t;
+        div.dataset.value = t;
+        div.addEventListener("click", () => {
+          timeText.textContent = t;
+          selectedTime = t;
+          timeOptions.classList.add("hidden");
+        });
+        timeOptions.appendChild(div);
+      });
+    }
+  } catch (err) {
+    console.error("Error loading times:", err);
+    timeOptions.innerHTML = `<div class="px-3 py-2 text-sm text-red-500">Error loading times</div>`;
   }
 }
 
@@ -255,7 +242,7 @@ form.addEventListener("submit", async (e) => {
   const result = await res.json();
 
   if (res.ok) {
-    const dateTime = `${data.date} στις ${data.time}`;
+    const dateTime = `${data.date} at ${data.time}`;
     showBookingModal(dateTime);
     form.reset();
     timeSelect.innerHTML = "";
@@ -273,7 +260,7 @@ const closeBtn = document.getElementById("closeModal");
 const modalMessage = document.getElementById("modalMessage");
 
 function showBookingModal(dateTime) {
-  modalMessage.innerHTML = `Έχετε κλείσει ραντεβού για <br> ${dateTime} με επιτυχία! <br> Αν έγινε κάποιο λάθος καλέστε στο 2312 955 747`;
+  modalMessage.innerHTML = `Your appointment is booked for <br> ${dateTime}!`;
 
   modal.classList.remove("hidden");
 

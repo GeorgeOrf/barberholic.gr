@@ -211,12 +211,14 @@ app.post('/api/calendar/webhook', async (req, res) => {
   }
 });
 
+let webhookTimer;
+
 async function startWebhook() {
   try {
     const response = await calendar.events.watch({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
       requestBody: {
-        id: `channel-${Date.now()}`, // unique
+        id: `channel-${Date.now()}`, // unique ID
         type: 'web_hook',
         address: 'https://barberholic-gr.onrender.com/api/calendar/webhook'
       }
@@ -224,8 +226,17 @@ async function startWebhook() {
 
     console.log("Webhook started:", response.data);
 
+    // Programm to renew before expiration
+    const expiration = parseInt(response.data.expiration); // in ms
+    const refreshTime = expiration - Date.now() - 60_000; // 1 minute before expiring
+
+    if (webhookTimer) clearTimeout(webhookTimer);
+    webhookTimer = setTimeout(() => startWebhook(), refreshTime);
+
   } catch (err) {
     console.error("Error starting webhook:", err);
+    // retry in 1 min if it fails
+    setTimeout(startWebhook, 60_000);
   }
 }
 
