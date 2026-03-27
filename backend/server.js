@@ -34,6 +34,8 @@ function calculateEndTime(startTime, duration) {
 }
 
 app.post("/book", async (req, res) => {
+  let googleEventId = null;
+
   try {
     const { client_name, phone, email, service_id, date, time } = req.body;
 
@@ -56,27 +58,17 @@ app.post("/book", async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Έλεγχος 2+ ωρών από τώρα
+    // Έλεγχος 2+ ώρες πριν
     const bookingDateTime = new Date(`${date}T${time}:00`);
     const now = new Date();
     if (bookingDateTime - now < 2 * 60 * 60 * 1000) {
       return res.status(400).json({ error: "Τα ραντεβού πρέπει να κλείνονται τουλάχιστον 2 ώρες πριν" });
     }
 
-    // insert στο database
-    const result = await pool.query(
-      `INSERT INTO appointments
-      (client_name, phone, email, service_id, date, time)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *`,
-      [client_name, phone, email, service_id, date, time]
-    );
-
-    const appointment = result.rows[0];
-
-    // --- Δημιουργία event στο Google Calendar ---
+    // --- Create event in Google Calendar ---
     const endTime = calculateEndTime(time, duration);
-    await calendar.events.insert({
+
+    const eventResponse = await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
       requestBody: {
         summary: `Haircut: ${client_name}`,
@@ -86,17 +78,44 @@ app.post("/book", async (req, res) => {
       }
     });
 
+    googleEventId = eventResponse.data.id;
+
+    // --- Insert into DB ---
+    const result = await pool.query(
+      `INSERT INTO appointments
+      (client_name, phone, email, service_id, date, time, google_event_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *`,
+      [client_name, phone, email, service_id, date, time, googleEventId]
+    );
+
+    const appointment = result.rows[0];
+
     res.status(201).json({
       message: "Appointment booked successfully",
       appointment
     });
 
   } catch (err) {
+    console.error(err);
+
+    // rollback αν κάτι πάει στραβά
+    if (googleEventId) {
+      try {
+        await calendar.events.delete({
+          calendarId: process.env.GOOGLE_CALENDAR_ID,
+          eventId: googleEventId
+        });
+        console.log("Rolled back Google event");
+      } catch (deleteErr) {
+        console.error("Failed to delete Google event:", deleteErr);
+      }
+    }
+
     if (err.code === "23505") {
       return res.status(400).json({ error: "This time slot is already booked" });
     }
 
-    console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -151,6 +170,64 @@ app.get('/holidays', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch holidays' });
   }
 });
+// Check if event was deleted and delete in db
+app.post('/api/calendar/webhook', async (req, res) => {
+  try {
+    const resourceState = req.headers['x-goog-resource-state'];
+
+    console.log('Webhook triggered:', resourceState);
+
+    // If something changed (including deletion)
+    if (resourceState === 'exists' || resourceState === 'not_exists') {
+
+      // Fetch latest events from Google
+      const events = await calendar.events.list({
+        calendarId: process.env.GOOGLE_CALENDAR_ID,
+      });
+
+      const googleEvents = events.data.items.map(e => e.id);
+
+      // Get all DB events
+      const dbRes = await pool.query(`SELECT google_event_id FROM appointments`);
+      const dbEvents = dbRes.rows.map(r => r.google_event_id);
+
+      // Find deleted ones
+      const deletedEvents = dbEvents.filter(id => !googleEvents.includes(id));
+
+      for (const id of deletedEvents) {
+        console.log("Deleting from DB:", id);
+        await pool.query(
+          `DELETE FROM appointments WHERE google_event_id = $1`,
+          [id]
+        );
+      }
+    }
+
+    res.sendStatus(200);
+
+  } catch (err) {
+    console.error("Webhook error:", err);
+    res.sendStatus(500);
+  }
+});
+
+async function startWebhook() {
+  try {
+    const response = await calendar.events.watch({
+      calendarId: process.env.GOOGLE_CALENDAR_ID,
+      requestBody: {
+        id: `channel-${Date.now()}`, // unique
+        type: 'web_hook',
+        address: 'https://barberholic.gr/api/calendar/webhook'
+      }
+    });
+
+    console.log("Webhook started:", response.data);
+
+  } catch (err) {
+    console.error("Error starting webhook:", err);
+  }
+}
 
 // Test route
 app.get("/", (req, res) => {
@@ -158,6 +235,7 @@ app.get("/", (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
+  await startWebhook();
 });
