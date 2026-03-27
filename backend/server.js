@@ -218,7 +218,7 @@ async function startWebhook() {
       requestBody: {
         id: `channel-${Date.now()}`, // unique
         type: 'web_hook',
-        address: 'https://barberholic.gr/api/calendar/webhook'
+        address: 'https://barberholic-gr.onrender.com/api/calendar/webhook'
       }
     });
 
