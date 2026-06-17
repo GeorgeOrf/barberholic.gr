@@ -26,7 +26,7 @@ menuBtn.addEventListener("click", () => {
   }
 });
 
-// Optional: close menu on link click
+// close menu on link click
 document.querySelectorAll("#mobileMenu a").forEach(link => {
   link.addEventListener("click", () => {
     mobileMenu.classList.add("-translate-y-full");

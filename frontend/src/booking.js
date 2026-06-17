@@ -160,7 +160,7 @@ async function loadTimes(date) {
       const timeStr = `${currentHour.toString().padStart(2, "0")}:${currentMin.toString().padStart(2, "0")}`;
       allTimes.push(timeStr);
 
-      currentMin += 45;
+      currentMin += 30;
       if (currentMin >= 60) {
         currentMin -= 60;
         currentHour++;
@@ -170,7 +170,7 @@ async function loadTimes(date) {
     const avaliable = allTimes.filter(t => !booked.some(b => b.time.startsWith(t)));
 
     const now = new Date();
-    const minBookingTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+    const minBookingTime = new Date(now.getTime() + 30 * 60 * 1000);
 
     const avaliableFiltered = avaliable.filter(t => {
       const [hour, minute] = t.split(":").map(Number);
@@ -242,10 +242,10 @@ form.addEventListener("submit", async (e) => {
   const result = await res.json();
 
   if (res.ok) {
-    const dateTime = `${data.date} at ${data.time}`;
+    const dateTime = `${data.date} στις ${data.time}`;
     showBookingModal(dateTime);
     form.reset();
-    timeSelect.innerHTML = "";
+    timeOptions.innerHTML = "";
   } else {
     message.textContent = `${result.error}`
   }
@@ -260,7 +260,7 @@ const closeBtn = document.getElementById("closeModal");
 const modalMessage = document.getElementById("modalMessage");
 
 function showBookingModal(dateTime) {
-  modalMessage.innerHTML = `Your appointment is booked for <br> ${dateTime}!`;
+  modalMessage.innerHTML = `Κλείσατε ραντεβού για <br> ${dateTime} <br> με επιτυχία!`;
 
   modal.classList.remove("hidden");
 
