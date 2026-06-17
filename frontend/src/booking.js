@@ -246,6 +246,14 @@ form.addEventListener("submit", async (e) => {
     showBookingModal(dateTime);
     form.reset();
     timeOptions.innerHTML = "";
+
+    selectedService = "";
+    selectedDate = "";
+    selectedTime = "";
+
+    serviceText.textContent = "Select service";
+    dateText.textContent = "Select date";
+    timeText.textContent = "Select time";
   } else {
     message.textContent = `${result.error}`
   }

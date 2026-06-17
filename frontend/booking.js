@@ -160,7 +160,6 @@ async function loadTimes(date) {
       const timeStr = `${currentHour.toString().padStart(2, "0")}:${currentMin.toString().padStart(2, "0")}`;
       allTimes.push(timeStr);
 
-      // Duration per service
       currentMin += 30;
       if (currentMin >= 60) {
         currentMin -= 60;
@@ -247,6 +246,14 @@ form.addEventListener("submit", async (e) => {
     showBookingModal(dateTime);
     form.reset();
     timeOptions.innerHTML = "";
+
+    selectedService = "";
+    selectedDate = "";
+    selectedTime = "";
+
+    serviceText.textContent = "Select service";
+    dateText.textContent = "Select date";
+    timeText.textContent = "Select time";
   } else {
     message.textContent = `${result.error}`
   }
