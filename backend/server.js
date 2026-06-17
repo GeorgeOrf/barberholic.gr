@@ -183,16 +183,35 @@ app.post('/api/calendar/webhook', async (req, res) => {
 
     console.log('Webhook triggered:', resourceState);
 
-    // prevent spam bursts
     if (Date.now() - lastWebhookTime < 3000) {
       return res.sendStatus(200);
     }
     lastWebhookTime = Date.now();
 
-    // ONLY react to meaningful changes
     if (resourceState !== 'exists' && resourceState !== 'not_exists') {
       return res.sendStatus(200);
     }
+
+
+    console.log("Calendar change detected");
+
+    return res.sendStatus(200);
+
+  } catch (err) {
+    console.error("Webhook error:", err);
+    res.sendStatus(500);
+  }
+});
+
+async function syncCalendar() {
+  try {
+    console.log(" Running full sync...");
+
+    const events = await calendar.events.list({
+      calendarId: process.env.GOOGLE_CALENDAR_ID,
+    });
+
+    const googleEvents = events.data.items.map(e => e.id);
 
     const dbRes = await pool.query(
       `SELECT google_event_id FROM appointments`
@@ -202,35 +221,21 @@ app.post('/api/calendar/webhook', async (req, res) => {
       .map(r => r.google_event_id)
       .filter(Boolean);
 
-    //validate each event individually
     for (const eventId of dbEvents) {
-      if (!eventId) continue;
+      if (!googleEvents.includes(eventId)) {
+        console.log("🗑 deleting:", eventId);
 
-      try {
-        await calendar.events.get({
-          calendarId: process.env.GOOGLE_CALENDAR_ID,
-          eventId
-        });
-      } catch (err) {
-        // If Google says "not found" → delete locally
-        if (err.code === 404) {
-          console.log("Deleting from DB (missing in Google):", eventId);
-
-          await pool.query(
-            `DELETE FROM appointments WHERE google_event_id = $1`,
-            [eventId]
-          );
-        }
+        await pool.query(
+          `DELETE FROM appointments WHERE google_event_id = $1`,
+          [eventId]
+        );
       }
     }
 
-    return res.sendStatus(200);
-
   } catch (err) {
-    console.error("Webhook error:", err);
-    res.sendStatus(500);
+    console.error("Sync error:", err);
   }
-});
+}
 
 let webhookTimer;
 
@@ -260,6 +265,8 @@ async function startWebhook() {
     setTimeout(startWebhook, 60_000);
   }
 }
+
+setInterval(syncCalendar, 10 * 60 * 1000);
 
 // Test route
 app.get("/", (req, res) => {
