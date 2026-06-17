@@ -80,6 +80,10 @@ app.post("/book", async (req, res) => {
 
     googleEventId = eventResponse.data.id;
 
+    if (!eventResponse?.data?.id) {
+    throw new Error("Google event creation failed");
+    }
+
     // --- Insert into DB ---
     const result = await pool.query(
       `INSERT INTO appointments
@@ -169,40 +173,58 @@ app.get('/holidays', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch holidays' });
   }
 });
+
 // Check if event was deleted and delete in db
+let lastWebhookTime = 0;
+
 app.post('/api/calendar/webhook', async (req, res) => {
   try {
     const resourceState = req.headers['x-goog-resource-state'];
 
     console.log('Webhook triggered:', resourceState);
 
-    // If something changed (including deletion)
-    if (resourceState === 'exists' || resourceState === 'not_exists') {
+    // prevent spam bursts
+    if (Date.now() - lastWebhookTime < 3000) {
+      return res.sendStatus(200);
+    }
+    lastWebhookTime = Date.now();
 
-      // Fetch latest events from Google
-      const events = await calendar.events.list({
-        calendarId: process.env.GOOGLE_CALENDAR_ID,
-      });
+    // ONLY react to meaningful changes
+    if (resourceState !== 'exists' && resourceState !== 'not_exists') {
+      return res.sendStatus(200);
+    }
 
-      const googleEvents = events.data.items.map(e => e.id);
+    const dbRes = await pool.query(
+      `SELECT google_event_id FROM appointments`
+    );
 
-      // Get all DB events
-      const dbRes = await pool.query(`SELECT google_event_id FROM appointments`);
-      const dbEvents = dbRes.rows.map(r => r.google_event_id);
+    const dbEvents = dbRes.rows
+      .map(r => r.google_event_id)
+      .filter(Boolean);
 
-      // Find deleted ones
-      const deletedEvents = dbEvents.filter(id => !googleEvents.includes(id));
+    //validate each event individually
+    for (const eventId of dbEvents) {
+      if (!eventId) continue;
 
-      for (const id of deletedEvents) {
-        console.log("Deleting from DB:", id);
-        await pool.query(
-          `DELETE FROM appointments WHERE google_event_id = $1`,
-          [id]
-        );
+      try {
+        await calendar.events.get({
+          calendarId: process.env.GOOGLE_CALENDAR_ID,
+          eventId
+        });
+      } catch (err) {
+        // If Google says "not found" → delete locally
+        if (err.code === 404) {
+          console.log("Deleting from DB (missing in Google):", eventId);
+
+          await pool.query(
+            `DELETE FROM appointments WHERE google_event_id = $1`,
+            [eventId]
+          );
+        }
       }
     }
 
-    res.sendStatus(200);
+    return res.sendStatus(200);
 
   } catch (err) {
     console.error("Webhook error:", err);
@@ -226,8 +248,8 @@ async function startWebhook() {
     console.log("Webhook started:", response.data);
 
     // Programm to renew before expiration
-    const expiration = parseInt(response.data.expiration); // in ms
-    const refreshTime = expiration - Date.now() - 60_000; // 1 minute before expiring
+    const expiration = parseInt(response.data.expiration);
+    const refreshTime = Math.max(expiration - Date.now() - 60_000, 60_000);
 
     if (webhookTimer) clearTimeout(webhookTimer);
     webhookTimer = setTimeout(() => startWebhook(), refreshTime);
