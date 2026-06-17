@@ -209,6 +209,9 @@ async function syncCalendar() {
 
     const events = await calendar.events.list({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
+      singleEvents: true,
+      timeMin: new Date(0).toISOString(),
+      maxResults: 2500
     });
 
     const googleEvents = events.data.items.map(e => e.id);
@@ -221,8 +224,10 @@ async function syncCalendar() {
       .map(r => r.google_event_id)
       .filter(Boolean);
 
+    const googleSet = new Set(googleEvents);
+
     for (const eventId of dbEvents) {
-      if (!googleEvents.includes(eventId)) {
+      if (!googleSet.has(eventId)) {
         console.log("deleting:", eventId);
 
         await pool.query(
