@@ -223,7 +223,7 @@ async function syncCalendar() {
 
     for (const eventId of dbEvents) {
       if (!googleEvents.includes(eventId)) {
-        console.log("🗑 deleting:", eventId);
+        console.log("deleting:", eventId);
 
         await pool.query(
           `DELETE FROM appointments WHERE google_event_id = $1`,
@@ -266,7 +266,7 @@ async function startWebhook() {
   }
 }
 
-setInterval(syncCalendar, 10 * 60 * 1000);
+setInterval(syncCalendar, 3 * 60 * 1000);
 
 // Test route
 app.get("/", (req, res) => {
